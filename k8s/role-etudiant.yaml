@@ -3,6 +3,6 @@ kind: Role
 metadata:
   name: etudiant-role
 rules:
-- apiGroups: ["", "apps"]
-  resources: ["pods", "services", "deployments"]
+- apiGroups: ["", "apps","networking.k8s.io" ]
+  resources: ["pods", "services", "deployments", "ingresses"]
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
