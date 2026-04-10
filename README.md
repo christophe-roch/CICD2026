@@ -568,6 +568,3 @@ Si tu as terminé en avance, tu peux :
 - Ajouter une étape **tests** dans le CICD qui vérifier le code.
 
 ---
-
-
-q fe

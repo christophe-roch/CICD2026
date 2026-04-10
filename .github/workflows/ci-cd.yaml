@@ -87,23 +87,23 @@ jobs:
       # Étape 6 : Installer kubectl
       # kubectl est nécessaire pour déployer dans k3s
       # ------------------------------------------------------------
-      #- name: Install kubectl
-      #  run: |
-      #    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      #    chmod +x kubectl
-      #    sudo mv kubectl /usr/local/bin/kubectl
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/kubectl
 
       # ------------------------------------------------------------
       # Étape 7 : Configurer le kubeconfig
       # Le kubeconfig fourni par le professeur est stocké dans un secret
       # On le sauvegarde dans un fichier local et on le protège (chmod 600)
       # ------------------------------------------------------------
-      #- name: Configure kubeconfig
-      #  run: |
-      #    echo "${{ secrets.KUBECONFIG_CONTENT }}" > kubeconfig
-      #    chmod 600 kubeconfig
-      #    export KUBECONFIG=$PWD/kubeconfig
-      #    echo "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
+      - name: Configure kubeconfig
+        run: |
+          echo "${{ secrets.KUBECONFIG_CONTENT }}" > kubeconfig
+          chmod 600 kubeconfig
+          export KUBECONFIG=$PWD/kubeconfig
+          echoS "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
 
       # ------------------------------------------------------------
       # Étape 7 : Mettre à jour le manifest Kubernetes
@@ -115,8 +115,8 @@ jobs:
       - name: Update image in manifest
         run: |
           sed -i "s|image:.*hello-app.*|image: ${IMAGE_NAME}:${{ steps.vars.outputs.TAG }}|g" k8s/deployment.yaml
- #         sed -i "s|DOCKER_HUB_USERNAME/hello-app:${{ steps.vars.outputs.TAG }}|${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.TAG }}|g" k8s/deployment.yaml
- #         sed -i "s|DOCKER_HUB_USERNAME/hello-app:${{ steps.vars.outputs.TAG }}|${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.TAG }}|g" k8s/deployment-${{ steps.vars.outputs.K8S_ENV }}.yaml
+          sed -i "s|DOCKER_HUB_USERNAME/hello-app:${{ steps.vars.outputs.TAG }}|${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.TAG }}|g" k8s/deployment.yaml
+          sed -i "s|DOCKER_HUB_USERNAME/hello-app:${{ steps.vars.outputs.TAG }}|${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.TAG }}|g" k8s/deployment-${{ steps.vars.outputs.K8S_ENV }}.yaml
       
       # ------------------------------------------------------------
       # Étape 8 : Force rollout annotation
