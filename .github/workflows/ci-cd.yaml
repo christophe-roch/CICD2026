@@ -103,7 +103,7 @@ jobs:
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > kubeconfig
           chmod 600 kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
-          echoS "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
+          echo "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
 
       # ------------------------------------------------------------
       # Étape 7 : Mettre à jour le manifest Kubernetes
