@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-app
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-app
+      env: dev
+  template:
+    metadata:
+      labels:
+        app: hello-app
+        env: dev
+    spec:
+      containers:
+        - name: hello-app
+          image: DOCKER_HUB_USERNAME/hello-app:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: APP_ENV
+              value: dev
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-app
+  namespace: dev
+spec:
+  selector:
+    app: hello-app
+    env: dev
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v11
+kind: Ingress
+metadata:
+  name: hello-app
+  namespace: dev
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+# ajouter dans le /etc/hosts
+# 192.168.21.100 hello.cluster.local
+    - host: hello.cluster.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-app
+                port:
+                  number: 80
