@@ -124,7 +124,7 @@ jobs:
       # ------------------------------------------------------------ 
       - name: Force rollout annotation
         run: |
-          kubectl annotate deployment hello-app kubernetes.io/change-cause="$(date)" --overwrite -n ${{ steps.vars.outputs.K8S_ENV }} --insecure-skip-tls-verify=true
+          kubectl annotate deployment hello-app kubernetes.io/change-cause="$(date)" --overwrite -n ${{ steps.vars.outputs.K8S_ENV }} 
 
       # ------------------------------------------------------------
       # Étape 9 : Déployer dans Kubernetes
@@ -132,7 +132,7 @@ jobs:
       # ------------------------------------------------------------
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f k8s/deployment.yaml -n ${{ steps.vars.outputs.K8S_ENV }} --insecure-skip-tls-verify=true
+          kubectl apply -f k8s/deployment.yaml -n ${{ steps.vars.outputs.K8S_ENV }} 
 
       # ------------------------------------------------------------
       # Étape 10 : Vérifier le rollout
@@ -140,4 +140,4 @@ jobs:
       # ------------------------------------------------------------ 
       - name: Verify rollout
         run: |
-          kubectl rollout status deployment/hello-app -n ${{ steps.vars.outputs.K8S_ENV }} --insecure-skip-tls-verify=true
+          kubectl rollout status deployment/hello-app -n ${{ steps.vars.outputs.K8S_ENV }} 
