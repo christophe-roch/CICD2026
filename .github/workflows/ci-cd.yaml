@@ -104,6 +104,9 @@ jobs:
           chmod 600 kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
           echo "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
 
       # ------------------------------------------------------------
       # Étape 7 : Mettre à jour le manifest Kubernetes
