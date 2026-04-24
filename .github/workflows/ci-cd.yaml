@@ -125,9 +125,9 @@ jobs:
       # Étape 8 : Force rollout annotation
       # Force un nouveau déploiement même si le manifest n’a pas changé
       # ------------------------------------------------------------ 
-      - name: Force rollout annotation
-        run: |
-          kubectl annotate deployment hello-app kubernetes.io/change-cause="$(date)" --overwrite -n ${{ steps.vars.outputs.K8S_ENV }} 
+      #- name: Force rollout annotation
+      #  run: |
+       #   kubectl annotate deployment hello-app kubernetes.io/change-cause="$(date)" --overwrite -n ${{ steps.vars.outputs.K8S_ENV }} 
 
       # ------------------------------------------------------------
       # Étape 9 : Déployer dans Kubernetes
